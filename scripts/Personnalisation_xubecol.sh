@@ -314,6 +314,26 @@ google.fr IN CNAME forcesafesearch.google.com.
 www.google.fr IN CNAME forcesafesearch.google.com.
 
 EOF
+
+# Ajout du filtrage DNS opendns (complémentaire du filtre académique)
+echo "# Mises à jour..."
+if zenity --question --no-wrap --text "Voulez-vous désactiver le filtre OPENDNS ?" --title "Filtrage complémentaire"
+ then
+	sleep 1
+ else
+
+cat >>/etc/dhcp/dhclient.conf <<EOF
+
+# ajout xubecol
+# utilisation de opendns pour la résolution de noms (DNS)
+# -> Même si on desactive le proxy académique on continue à avoir un peu de filtrage (pas pour tout)
+prepend domain-name-servers 208.67.222.222,208.67.220.220;
+#xub
+
+EOF
+
+fi
+
  
 # Mises à jour... 
 echo "# Mises à jour..."
